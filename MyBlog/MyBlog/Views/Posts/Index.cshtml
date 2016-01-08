@@ -1,0 +1,26 @@
+﻿
+@using MyBlog.Models;
+
+@model IEnumerable<Post>
+
+@{
+    ViewBag.Title = "Index";
+    bool IsPreviousLink = ViewBag.IsPreviousLink ?? false;
+    bool isNextLink = ViewBag.IsNextLink ?? false;
+    bool isAdmin = ViewBag.IsAdmin ?? false;
+}
+@foreach (Post post in Model)
+{
+    <!--@post.Title<br/> -->
+    @BlogHelper.Render(post,Html,isAdmin, false)
+}
+
+@if (IsPreviousLink)
+{
+    <a id="previouslink" href="@Href("~/Posts/Index/" + (ViewBag.PageNumber - 1))">&lt;&lt;IsPreviousLink Page</a>                                                                                         
+}
+
+@if (isNextLink)
+{
+    <a id="nextlink" href="@Href("~/Posts/Index/" + (ViewBag.PageNumber + 1))">isNextLink Page &gt;&gt;</a>                                                                                         
+}
