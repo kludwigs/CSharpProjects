@@ -7,32 +7,102 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-	public class HomeController : Controller
+    public class HomeController : Controller
 	{
-		public ActionResult Index()
+        ClientUserViewModel mymodel = new ClientUserViewModel() { Title = "Sample Code Clients and Users" };
+        Repositories.ClientRepository client_repo = new Repositories.ClientRepository();
+        Repositories.UserRepository user_repo = new Repositories.UserRepository();
+
+        public ActionResult Index()
 		{
-			var vm = new ClientUserViewModel() {Title = "Sample Code Clients and Users"};
-			return View(vm);
+            var vm = mymodel;
+            return View(vm);
 		}
 
 		public ActionResult GetClientList()
 		{
-			throw new NotImplementedException();
+            var vm = mymodel;
+            var users =  client_repo.GetUsers();
+            return View(vm);
+        }
+
+        public ActionResult GetUserList()
+        {
+            var vm = mymodel;
+            var users = user_repo.GetUsers();
+            return View(vm);
+        }
+  
+        [ValidateInput(true)]
+        public ActionResult UpdateClients(string clientname, int? id)
+        {
+            var vm = mymodel;
+            int? returnId;
+            //if save
+            if(!id.HasValue)
+            { 
+                // update database
+                returnId =  MergeClient(id, clientname);
+                // update model
+                if (returnId.HasValue)
+                    vm.AddClient(clientname, returnId.Value);
+            }
+            else
+            // if edit
+            {
+                // update database
+                returnId = MergeClient(id, clientname);
+                // update model
+                if (returnId.HasValue)
+                { 
+                    var obj = vm.Clients.FirstOrDefault(x => x.Id == returnId.Value);
+                    if (obj != null) obj.Name = clientname;
+                }
+            } 
+            return View("Index",vm);
+        }
+
+        [ValidateInput(true)]
+        public ActionResult UpdateUsers(string username, int? id, int clientid)
+        {
+            var vm = mymodel;
+            int? returnId;
+            //if save
+            if (!id.HasValue)
+            {
+                // update database
+                returnId = MergeUser(id, clientid, username);
+                // update model
+                if (returnId.HasValue)
+                    vm.AddUsers(username, clientid, returnId.Value);
+            }
+            else
+            // if edit
+            {
+                // update database
+                returnId = MergeUser(id, clientid, username);
+                // update model
+                if (returnId.HasValue)
+                {
+                    var obj = vm.Users.FirstOrDefault(x => x.Id == returnId.Value);
+                    if (obj != null)
+                    {
+                        obj.Name = username;
+                        obj.ParentId = clientid;
+                    }
+                }
+            }
+            return View("Index", vm);
+        }
+
+		public int? MergeClient(int? clientId, string clientName)
+		{
+           return client_repo.MergeClient(clientId, clientName);
 		}
 
-		public ActionResult GetUserList()
+		public int? MergeUser(int? userId, int clientId, string username)
 		{
-			throw new NotImplementedException();
-		}
-
-		public void MergeClient(int clientId, string clientName)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void MergeUser(int userId, int clientId, string username)
-		{
-			throw new NotImplementedException();
+            return user_repo.MergeUser(userId, username, clientId);
 		}
 	}
 }

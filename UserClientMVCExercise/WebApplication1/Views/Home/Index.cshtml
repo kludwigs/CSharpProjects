@@ -2,15 +2,29 @@
 
 <div class="jumbotron">
 	<h1>@Model.Title</h1>
+    <!--
 	<p class="lead">Use this area to display a list of clients and users under each client</p>
-
+        -->
+    <p class="lead">@SiteHelper.Render(@Model)</p>
 </div>
 <div class="body-content">
 	<div class="caption">
-		Use this area to create a simple form to add a client.
+		Enter a new client name.
+
+        <form action="@Href("~/Home/UpdateClients")" method="post" id="clientForm">
+
+            <input type="text" name="clientname" value="" /><br />
+            <input type="submit" name="submit" value="Submit!" />
+        </form>
 	</div>
 	<div class="caption">
 		Use this area to create a simple form to add a User.
+
+        <form action="@Href("~/Home/UpdateUsers")" method="post" id="clientForm">
+
+            <input type="text" name="username" value="Enter User Name" /> Name<br />
+            <input type="submit" name="submit" value="Submit!" />
+        </form>
 	</div>
 </div>
 

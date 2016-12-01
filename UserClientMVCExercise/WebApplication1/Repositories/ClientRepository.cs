@@ -19,19 +19,20 @@ namespace WebApplication1.Repositories
 			//NEW
 			if (clientId == null)
 			{
-				query = String.Format("INSERT INTO TABLE Clients [clientId, clientName] VALUES ({0},{1}); SELECT last_insert_rowid() FROM Clients", clientId, clientName);
+				query = String.Format("INSERT INTO Clients (clientId,clientName) VALUES (NULL,\"{1}\"); SELECT last_insert_rowid() FROM Clients", clientId, clientName);
+                //query = "Select * from users";
 			}
 			//UPDATE
 			else
 			{
-				query = String.Format("UPDATE Clients SET clietName='{0}' WHERE clientId='{1}", clientName, clientId);
+				query = String.Format("UPDATE Clients SET clientName='{0}' WHERE clientId='{1}", clientName, clientId);
 			}
 
 			var ds = _sqliteConfig.ExecuteQuery(query);
 
 			if (ds.HasData())
 			{
-				id = ds.Tables[0].Rows[0]["userid"].ToInt(-1);
+				id = ds.Tables[0].Rows[0]["clientId"].ToInt(-1);
 			}
 
 			return id;

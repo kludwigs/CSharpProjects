@@ -18,7 +18,8 @@ namespace WebApplication1.Repositories
 			//NEW
 			if (userId == null)
 			{
-				query = String.Format("INSERT INTO TABLE Users [userId, username, clientId] VALUES ({0},{1}, {2}); SELECT last_insert_rowid() FROM Users", userId, username, clientId);
+                //query = String.Format("INSERT INTO TABLE Users [userId, username, clientId] VALUES ({0},{1}, {2}); SELECT last_insert_rowid() FROM Users", userId, username, clientId);
+                query = "Select * from users";
 			}
 			//UPDATE
 			else

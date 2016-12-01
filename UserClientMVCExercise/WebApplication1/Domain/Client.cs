@@ -9,5 +9,6 @@ namespace WebApplication1.Domain
 	public class Client
 	{
         public string Name { get; set; }
+        public int Id { get; set; }
     }
 }
