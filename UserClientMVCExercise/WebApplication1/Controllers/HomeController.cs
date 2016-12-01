@@ -34,7 +34,7 @@ namespace WebApplication1.Controllers
         {
             ClientUserViewModel mymodel = new ClientUserViewModel() { Title = "Sample Code Clients and Users" };
             var vm = mymodel;
-            
+            vm.Users = uw.GetUsers();
             return View(vm);
         }
 
@@ -59,12 +59,12 @@ namespace WebApplication1.Controllers
 
 		public int? MergeClient(int? clientId, string clientName)
 		{
-           return client_repo.MergeClient(clientId, clientName);
+           return cw.MergeClient(clientId, clientName);
 		}
 
 		public int? MergeUser(int? userId, int clientId, string username)
 		{
-            return user_repo.MergeUser(userId, username, clientId);
+            return uw.MergeUser(userId, username, clientId);
 		}
 	}
 }

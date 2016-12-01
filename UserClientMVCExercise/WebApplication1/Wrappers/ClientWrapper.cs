@@ -34,9 +34,9 @@ namespace WebApplication1.Wrappers
 
         // added nullable type
         // changed name to Merge Client to match other function names
-		public void MergeClient(int? clientId, string clientName)
+		public int? MergeClient(int? clientId, string clientName)
 		{
-            client_repo.MergeClient(clientId, clientName);
+            return client_repo.MergeClient(clientId, clientName);
         }
 	}
 }

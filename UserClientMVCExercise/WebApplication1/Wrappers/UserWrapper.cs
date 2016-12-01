@@ -9,8 +9,6 @@ namespace WebApplication1.Wrappers
     //TODO User this class to wrap the datasets from the repositories into objects.  Bonus point for using depencency injection
     public class UserWrapper
 	{
-
-        Repositories.ClientRepository client_repo = new Repositories.ClientRepository();
         Repositories.UserRepository user_repo = new Repositories.UserRepository();
 
         public User GetUserById(int id)
@@ -39,7 +37,7 @@ namespace WebApplication1.Wrappers
         //changed function name from update changed return value and userId argument to int?
 		public int? MergeUser(int? userId, string username, int clientid)
 		{
-            return user_repo.MergeUser(userId,username, clientid)
+            return user_repo.MergeUser(userId, username, clientid);
         }
 	}
 }
