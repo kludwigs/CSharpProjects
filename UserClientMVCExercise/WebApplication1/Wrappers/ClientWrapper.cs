@@ -32,9 +32,11 @@ namespace WebApplication1.Wrappers
             return clients;
         }
 
-		public void UpdateClient(int clientId, string clientName)
+        // added nullable type
+        // changed name to Merge Client to match other function names
+		public void MergeClient(int? clientId, string clientName)
 		{
-			throw new NotImplementedException();
-		}
+            client_repo.MergeClient(clientId, clientName);
+        }
 	}
 }
