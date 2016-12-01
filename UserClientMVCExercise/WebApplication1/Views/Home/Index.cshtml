@@ -9,22 +9,29 @@
 </div>
 <div class="body-content">
 	<div class="caption">
-		Enter a new client name.
+		Enter a name to Add Client.
 
         <form action="@Href("~/Home/UpdateClients")" method="post" id="clientForm">
 
             <input type="text" name="clientname" value="" /><br />
             <input type="submit" name="submit" value="Submit!" />
         </form>
+        <br />
 	</div>
+    <hr />
 	<div class="caption">
-		Use this area to create a simple form to add a User.
-
+		Enter a name and select a client to Add User.
         <form action="@Href("~/Home/UpdateUsers")" method="post" id="clientForm">
 
-            <input type="text" name="username" value="Enter User Name" /> Name<br />
+            <input type="text" name="username" value="" /><br />
+            @Html.LabelFor(m => m.SelectedClientId)
+            @Html.DropDownListFor(m => m.SelectedClientId, Model.ClientDropDownList)<br />
             <input type="submit" name="submit" value="Submit!" />
+            
         </form>
 	</div>
+    <div class="caption">
+
+    </div>
 </div>
 

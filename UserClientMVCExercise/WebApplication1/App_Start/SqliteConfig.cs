@@ -30,9 +30,7 @@ namespace WebApplication1.App_Start
 			_sqlite_conn.Open();
 			_sqlite_cmd = _sqlite_conn.CreateCommand();
 
-
-			//UserData
-            /*
+			//UserData            
 			_sqlite_cmd.CommandText = "DROP TABLE IF EXISTS Users";
 			_sqlite_cmd.ExecuteNonQuery();
 
@@ -44,7 +42,8 @@ namespace WebApplication1.App_Start
 			_sqlite_cmd.ExecuteNonQuery();
 			_sqlite_cmd.CommandText = "CREATE TABLE Clients (clientId integer primary key, clientName varchar(100));";
 			_sqlite_cmd.ExecuteNonQuery();
-            */
+            
+
 		}
 
 		public DataSet ExecuteQuery(string query)

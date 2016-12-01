@@ -18,8 +18,8 @@ namespace WebApplication1.Repositories
 			//NEW
 			if (userId == null)
 			{
-                //query = String.Format("INSERT INTO TABLE Users [userId, username, clientId] VALUES ({0},{1}, {2}); SELECT last_insert_rowid() FROM Users", userId, username, clientId);
-                query = "Select * from users";
+                // made changes here to string Removed Table before Users replaced [] to () replaced empty userID to NULL at Values(...) placed backslashes
+                query = String.Format("INSERT INTO Users (userId, username, clientId) VALUES (NULL,\"{1}\", {2}); SELECT last_insert_rowid() FROM Users", userId, username, clientId);              
 			}
 			//UPDATE
 			else
@@ -31,8 +31,9 @@ namespace WebApplication1.Repositories
 
 			if (ds.HasData())
 			{
-				id = ds.Tables[0].Rows[0]["userid"].ToInt(-1);
-			}
+                //id = ds.Tables[0].Rows[0]["clientId"].ToInt(-1);
+                id = ds.Tables[0].Rows[0][0].ToInt(-1);
+            }
 
 			return id;
 		}

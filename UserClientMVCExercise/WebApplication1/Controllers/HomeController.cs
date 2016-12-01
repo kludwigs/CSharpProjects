@@ -9,33 +9,86 @@ namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
 	{
-        ClientUserViewModel mymodel = new ClientUserViewModel() { Title = "Sample Code Clients and Users" };
+        
         Repositories.ClientRepository client_repo = new Repositories.ClientRepository();
         Repositories.UserRepository user_repo = new Repositories.UserRepository();
 
         public ActionResult Index()
 		{
+            ClientUserViewModel mymodel = new ClientUserViewModel() { Title = "Sample Code Clients and Users" };
             var vm = mymodel;
+
+            var clientrows= client_repo.GetUsers().Tables[0].Rows;
+            var usersrows = user_repo.GetUsers().Tables[0].Rows;
+
+            for (int i = 0; i < usersrows.Count; i++)
+            {
+                int id = usersrows[i][0].ToInt(-1);
+                string username = usersrows[i][1].ToString();
+                int clientid = usersrows[i][2].ToInt(-1);
+                vm.AddUser(username,id,clientid);
+                
+            }
+
+            for (int i = 0;i<clientrows.Count;i++)
+            {
+                int id = clientrows[i][0].ToInt(-1);
+                string clientname = clientrows[i][1].ToString();
+                vm.AddClient(clientname, id);
+                
+            }
+            vm.ClientDropDownList = vm.Clients.Select(x =>new SelectListItem{Value = x.Id.ToString(),Text = x.Name});
+
             return View(vm);
 		}
+        private IEnumerable<SelectListItem> GetClientListHelper(ClientUserViewModel vm)
+        {
+            var clientrows = client_repo.GetUsers().Tables[0].Rows;
 
-		public ActionResult GetClientList()
+            for (int i = 0; i < clientrows.Count; i++)
+            {
+                int id = clientrows[i][0].ToInt(-1);
+                string clientname = clientrows[i][1].ToString();
+                vm.AddClient(clientname, id);
+            }
+            var clients = vm.Clients.Select(x =>
+                                new SelectListItem
+                                {
+                                    Value = x.Id.ToString(),
+                                    Text = x.Name
+                                });
+
+            return new SelectList(clients, "Value", "Text");
+        }
+
+        public ActionResult GetClientList()
 		{
+            ClientUserViewModel mymodel = new ClientUserViewModel() { Title = "Sample Code Clients and Users" };
             var vm = mymodel;
-            var users =  client_repo.GetUsers();
+            vm.ClientDropDownList = GetClientListHelper(vm);
             return View(vm);
         }
 
         public ActionResult GetUserList()
         {
+            ClientUserViewModel mymodel = new ClientUserViewModel() { Title = "Sample Code Clients and Users" };
             var vm = mymodel;
-            var users = user_repo.GetUsers();
+            var usersrows = user_repo.GetUsers().Tables[0].Rows;
+
+            for (int i = 0; i < usersrows.Count; i++)
+            {
+                int id = usersrows[i][0].ToInt(-1);
+                string username = usersrows[i][1].ToString();
+                int clientid = usersrows[i][2].ToInt(-1);
+                vm.AddUser(username, id, clientid);
+            }
             return View(vm);
         }
-  
+
         [ValidateInput(true)]
         public ActionResult UpdateClients(string clientname, int? id)
         {
+            ClientUserViewModel mymodel = new ClientUserViewModel() { Title = "Sample Code Clients and Users" };
             var vm = mymodel;
             int? returnId;
             //if save
@@ -59,14 +112,14 @@ namespace WebApplication1.Controllers
                     if (obj != null) obj.Name = clientname;
                 }
             } 
-            return View("Index",vm);
+            return RedirectToAction("Index");
         }
 
         [ValidateInput(true)]
-        public ActionResult UpdateUsers(string username, int? id, int clientid)
+        public ActionResult UpdateUsers(string username, int? id, int? clientid, ClientUserViewModel vm)
         {
-            var vm = mymodel;
             int? returnId;
+            int clientid = vm.SelectedClientId;
             //if save
             if (!id.HasValue)
             {
@@ -74,7 +127,7 @@ namespace WebApplication1.Controllers
                 returnId = MergeUser(id, clientid, username);
                 // update model
                 if (returnId.HasValue)
-                    vm.AddUsers(username, clientid, returnId.Value);
+                    vm.AddUser(username, clientid, returnId.Value);
             }
             else
             // if edit
@@ -92,7 +145,7 @@ namespace WebApplication1.Controllers
                     }
                 }
             }
-            return View("Index", vm);
+            return RedirectToAction("Index");
         }
 
 		public int? MergeClient(int? clientId, string clientName)
