@@ -11,7 +11,8 @@ namespace WebApplication1.Wrappers
 	public class ClientWrapper
 	{
         Repositories.ClientRepository client_repo = new Repositories.ClientRepository();
-
+        
+        // implemented but not used by program
 		public Client GetClientById(int id)
 		{
             var clientrows = client_repo.GetUsers().Tables[0].Rows;
@@ -19,7 +20,7 @@ namespace WebApplication1.Wrappers
 
             return (new Client { Id = id, Name = clientname });
         }
-
+        // instantiates object to map to data model
 		public List<Client> GetClients()
 		{
             var clientrows = client_repo.GetUsers().Tables[0].Rows;
