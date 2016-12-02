@@ -20,11 +20,12 @@ namespace WebApplication1.Repositories
 			{
                 // made changes here to string Removed Table before Users replaced [] to () replaced empty userID to NULL at Values(...) placed backslashes
                 query = String.Format("INSERT INTO Users (userId, username, clientId) VALUES (NULL,\"{1}\", {2}); SELECT last_insert_rowid() FROM Users", userId, username, clientId);              
-			}
+			} 
 			//UPDATE
 			else
 			{
-				query = String.Format("UPDATE Users SET username=\"{0}\", clientId = {2}  WHERE userId={1}",username, userId, clientId);
+                // escaped quotes \" extraneous ' removed - added missing set clientId SET
+                query = String.Format("UPDATE Users SET username=\"{0}\", clientId = {2}  WHERE userId={1}",username, userId, clientId);
 			}
 
 			var ds = _sqliteConfig.ExecuteQuery(query);

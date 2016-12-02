@@ -19,13 +19,14 @@ namespace WebApplication1.Repositories
 			//NEW
 			if (clientId == null)
 			{
-                // made changes here to string Removed Table before Users replaced [] to () replaced empty clientId to NULL at Values(...)
+                // escaped quotes \" extraneous Table text removed - [] to () - replaced empty clientId to NULL at Values(...)
                 query = String.Format("INSERT INTO Clients (clientId,clientName) VALUES (NULL,\"{1}\"); SELECT last_insert_rowid() FROM Clients", clientId, clientName);
                 //query = "Select * from users";
 			}
 			//UPDATE
 			else
 			{
+                // escaped quotes \" extraneous ' removed
 				query = String.Format("UPDATE Clients SET clientName=\"{0}\" WHERE clientId={1}", clientName, clientId);
 			}
 

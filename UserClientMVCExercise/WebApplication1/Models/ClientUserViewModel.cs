@@ -15,6 +15,7 @@ namespace WebApplication1.Models
 
         // Use to assign a client to a user
         [Display(Name = "User Client Select")]
+        [Required(ErrorMessage = "A user must be assigned a client.")]
         public int SelectedUserToClientId { get; set; }
 
         // when selected use for editing
@@ -35,5 +36,11 @@ namespace WebApplication1.Models
         public List<User> Users;
 
         public List<Client> Clients;
+
+        //variables passed in client and user submit forms. 
+        [Required(ErrorMessage = "A user name is required.")]
+        public string username { get; set; }
+        [Required(ErrorMessage = "A client name is required.")]
+        public string clientname { get; set; }
     }
 }

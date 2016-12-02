@@ -1,36 +1,32 @@
 ﻿@model WebApplication1.Models.ClientUserViewModel
 <div class="jumbotron">
-	<h1>@Model.Title</h1>
-    <!--
-	<p class="lead">Use this area to display a list of clients and users under each client</p>
-     -->
-    
+	<h1>@Model.Title</h1>    
 </div>
 <div class="body-content">
-    <p class="lead">@SiteHelper.Render(@Model)</p>
+    <!-- helper method from App_Code -->
+    @SiteHelper.Render(@Model)
+    <hr />
 	<div class="caption">
 		Enter a name to Add Client or select one to edit.
-
         <form action="@Href("~/Home/UpdateClients")" method="post" id="clientForm">
-            @Html.DropDownListFor(m => m.SelectedClientId, Model.ClientDropDownList)<br />
-            <input type="text" name="clientname" value="" /><br />
-            <input type="submit" name="submit" value="Submit!" />
+            @Html.ValidationSummary()
+            @Html.TextBox("clientname"):@Html.DropDownListFor(m => m.SelectedClientId, Model.ClientDropDownList)<br /><br />
+            <input type="submit" name="client-form" value="Save/Edit" />
         </form>
         <br />
 	</div>
     <hr />
 	<div class="caption">
-		Enter a name and select a client to Add User.
+		Enter a name to Add User or select one to edit.
         <form action="@Href("~/Home/UpdateUsers")" method="post" id="userform">
-            
-            <input type="text" name="username" value="" /> @Html.DropDownListFor(m=>m.SelectedUserId, Model.UserDropDownList)<br />
+            @Html.ValidationSummary()
+            @Html.TextBox("username") : @Html.DropDownListFor(m=>m.SelectedUserId, Model.UserDropDownList)<br />
             @Html.LabelFor(m => m.SelectedClientId)
             @Html.DropDownListFor(m => m.SelectedUserToClientId,Model.UserToClientDropDownList)<br />
-            <input type="submit" name="submit" value="Submit!" />
+            <input type="submit" name="user-form" value="Save/Edit" />
         </form>
 	</div>
-    <div class="caption">
-      <br /> <span style="color:grey">@ViewBag.InputMessage</span>
-    </div>
 </div>
-
+<!-- validation scripts - allows client side validation-->
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("/bundles/jqueryval")

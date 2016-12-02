@@ -10,17 +10,16 @@ namespace WebApplication1.Wrappers
     public class UserWrapper
 	{
         Repositories.UserRepository user_repo = new Repositories.UserRepository();
-
+        // implemented but not used in program
         public User GetUserById(int id)
         {
-
             var userrow = user_repo.GetUserById(id).Tables[0].Rows;
             string username = userrow[0][1].ToString();
             int clientid = userrow[0][2].ToInt(-1);
             return new User { Id = id, Name = username, ClientId = clientid };
         }
-
-		public List<User> GetUsers()
+        // instantiates object to map to data model
+        public List<User> GetUsers()
 		{
             List<User> users = new List<User>();
             
@@ -37,7 +36,6 @@ namespace WebApplication1.Wrappers
             }
             return users;
         }
-
         //changed function name from update changed return value and userId argument to int?
 		public int? MergeUser(int? userId, string username, int clientid)
 		{
