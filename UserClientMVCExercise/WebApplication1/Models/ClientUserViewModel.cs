@@ -22,8 +22,6 @@ namespace WebApplication1.Models
         [Display(Name = "Client Select")]
         public int SelectedClientId { get; set; }
 
-        public string AddEditError { get; set; }
-
         // client drop down list for editing
         public IEnumerable<SelectListItem> ClientDropDownList { get; set; }
         // user drop down list for editing
@@ -34,7 +32,6 @@ namespace WebApplication1.Models
         public string Title { get; set; }
 
         public List<User> Users;
-
         public List<Client> Clients;
 
         //variables passed in client and user submit forms. 
