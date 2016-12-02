@@ -4,14 +4,15 @@
     <!--
 	<p class="lead">Use this area to display a list of clients and users under each client</p>
      -->
-    <p class="lead">@SiteHelper.Render(@Model, Html)</p>
+    
 </div>
 <div class="body-content">
+    <p class="lead">@SiteHelper.Render(@Model)</p>
 	<div class="caption">
-		Enter a name to Add Client.
+		Enter a name to Add Client or select one to edit.
 
         <form action="@Href("~/Home/UpdateClients")" method="post" id="clientForm">
-
+            @Html.DropDownListFor(m => m.SelectedClientId, Model.ClientDropDownList)<br />
             <input type="text" name="clientname" value="" /><br />
             <input type="submit" name="submit" value="Submit!" />
         </form>
@@ -21,10 +22,10 @@
 	<div class="caption">
 		Enter a name and select a client to Add User.
         <form action="@Href("~/Home/UpdateUsers")" method="post" id="userform">
-
-            <input type="text" name="username" value="" /><br />
+            
+            <input type="text" name="username" value="" /> @Html.DropDownListFor(m=>m.SelectedUserId, Model.UserDropDownList)<br />
             @Html.LabelFor(m => m.SelectedClientId)
-            @Html.DropDownListFor(m => m.SelectedClientId, Model.ClientDropDownList)<br />
+            @Html.DropDownListFor(m => m.SelectedUserToClientId,Model.UserToClientDropDownList)<br />
             <input type="submit" name="submit" value="Submit!" />
         </form>
 	</div>

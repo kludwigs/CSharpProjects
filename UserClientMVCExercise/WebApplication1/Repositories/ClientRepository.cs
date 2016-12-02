@@ -26,7 +26,7 @@ namespace WebApplication1.Repositories
 			//UPDATE
 			else
 			{
-				query = String.Format("UPDATE Clients SET clientName='{0}' WHERE clientId='{1}", clientName, clientId);
+				query = String.Format("UPDATE Clients SET clientName=\"{0}\" WHERE clientId={1}", clientName, clientId);
 			}
 
 			var ds = _sqliteConfig.ExecuteQuery(query);

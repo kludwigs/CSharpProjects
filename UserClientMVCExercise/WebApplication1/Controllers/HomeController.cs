@@ -12,18 +12,24 @@ namespace WebApplication1.Controllers
 	{
         Wrappers.ClientWrapper cw = new Wrappers.ClientWrapper();
         Wrappers.UserWrapper uw = new Wrappers.UserWrapper();
-        
 
         public ActionResult Index()
 		{
             ClientUserViewModel mymodel = new ClientUserViewModel() { Title = "Sample Code Clients and Users" };
             var vm = mymodel;
-
-            ViewBag.InputMessage = TempData["shortMessage"];
             
             vm.Users = uw.GetUsers();
             vm.Clients = cw.GetClients();
-            vm.ClientDropDownList = vm.Clients.Select(x =>new SelectListItem{Value = x.Id.ToString(),Text = x.Name});
+    
+            var tmplist = vm.Clients.ToList();
+            tmplist.Insert(0, new Domain.Client { Id = -1, Name = "Select To Edit" });
+            vm.ClientDropDownList = tmplist.Select(x =>new SelectListItem{Value = x.Id.ToString(),Text = x.Name});
+            vm.UserToClientDropDownList = tmplist.Where(x=>x.Id > -1).Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name });
+
+            var tmpulist = vm.Users.ToList();
+            tmpulist.Insert(0, new Domain.User { Id = -1, Name = "Select To Edit", ClientId = -1 });
+            vm.UserDropDownList = tmpulist.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name });
+     
             return View(vm);
 		}
 
@@ -44,46 +50,43 @@ namespace WebApplication1.Controllers
         }
 
         [ValidateInput(true)]
-        public ActionResult UpdateClients(string clientname, int? id)
+        public ActionResult UpdateClients(string clientname, int?id, ClientUserViewModel vm)
         {
             int? returnId;
+           
             if (!ValidateInputName(clientname))
             {
-                TempData["shortMessage"] = "You must input letters or numbers";
                 return Redirect("Index");
             }
+            var selectedId = vm.SelectedClientId;
+            // if selected we are editing
+            if (selectedId > -1)
+                id = selectedId;
             returnId = MergeClient(id, clientname);
-            TempData["shortMessage"] = "Insert Successfully";
             return Redirect("Index");
         }
 
         [ValidateInput(true)]
-        public ActionResult UpdateUsers(string username, int? id, int? clientid, ClientUserViewModel vm)
+        public ActionResult UpdateUsers(string username, int? id, ClientUserViewModel vm)
         {
             int? returnId;
+            
+            int clientid;
+
+            var selectId = vm.SelectedUserId;
+            // if selected we are editing so assign id
+            if (selectId > -1)
+                id = selectId;
             if (!ValidateInputName(username))
             {
                 TempData["shortMessage"] = "You must input letters or numbers";
                 return Redirect("Index");
             }
-            if (!clientid.HasValue)
-                clientid = vm.SelectedClientId;
-            returnId = MergeUser(id, clientid.Value, username);
+            clientid = vm.SelectedUserToClientId;
+            returnId = MergeUser(id, clientid, username);
             TempData["shortMessage"] = "Insert Successfully";
 
             return Redirect("Index");
-        }
-        public ActionResult EditUser(int id)
-        {
-            ClientUserViewModel mymodel = new ClientUserViewModel() { Title = "Edit User Page" };
-            var vm = mymodel;
-            vm.Users = new List<Domain.User>();
-            var user = uw.GetUserById(id);
-            vm.Users.Add(user);
-            vm.Clients = cw.GetClients();
-            ViewBag.AssignedClient = vm.Clients.Find(x => x.Id == user.ClientId).Name;
-            vm.ClientDropDownList = vm.Clients.Select(x => new SelectListItem { Value = x.Id.ToString(), Text = x.Name });
-            return View(vm);
         }
 		public int? MergeClient(int? clientId, string clientName)
 		{

@@ -1,16 +1,13 @@
 ﻿@using WebApplication1.Models;
-@using System.Web.Mvc.Html;
-@helper Render(ClientUserViewModel cuvmodel, System.Web.Mvc.HtmlHelper html)
+@helper Render(ClientUserViewModel cuvmodel)
 {
     foreach (var client in cuvmodel.Clients)
 {
-
     @client.Name
-
             <ul>
              @foreach (var user in cuvmodel.Users.Where(x => x.ClientId == client.Id))
              {
-                <li>@user.Name: @html.ActionLink("Edit", "Edit", new { id = user.Id });</li>
+                <li>@user.Name</li>
     }
             </ul>
     }
