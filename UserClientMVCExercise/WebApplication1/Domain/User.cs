@@ -9,7 +9,7 @@ namespace WebApplication1.Domain
 	public class User
 	{
         public string Name { get; set; }
-        public int ParentId { get; set; }
+        public int ClientId { get; set; }
         public int Id { get; set; }
     }
 }

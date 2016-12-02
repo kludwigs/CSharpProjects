@@ -1,0 +1,14 @@
+﻿@model WebApplication1.Models.ClientUserViewModel
+<div class="jumbotron">
+    <h1>@Model.Title</h1>
+</div>
+Current Settings
+Name: @Model.Users[0].Name<br />
+Client: @ViewBag.AssignedClient<br />
+
+<form action="@Href("~/Home/UpdateUsers")" method="post" id="userform">
+    <input type="hidden" name="id" id="" value="@Model.Users[0].Id" />
+    <input type="text" id="" name="username" value="@Model.Users[0].Name" class="editForm" />
+    @Html.DropDownListFor(m => m.SelectedClientId, Model.ClientDropDownList)<br />
+    <input type="submit" name="submit" value="Submit!" />
+</form>

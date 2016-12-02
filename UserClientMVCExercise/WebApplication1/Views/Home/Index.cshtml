@@ -1,11 +1,10 @@
 ﻿@model WebApplication1.Models.ClientUserViewModel
-
 <div class="jumbotron">
 	<h1>@Model.Title</h1>
     <!--
 	<p class="lead">Use this area to display a list of clients and users under each client</p>
-        -->
-    <p class="lead">@SiteHelper.Render(@Model)</p>
+     -->
+    <p class="lead">@SiteHelper.Render(@Model, Html)</p>
 </div>
 <div class="body-content">
 	<div class="caption">
@@ -21,17 +20,16 @@
     <hr />
 	<div class="caption">
 		Enter a name and select a client to Add User.
-        <form action="@Href("~/Home/UpdateUsers")" method="post" id="clientForm">
+        <form action="@Href("~/Home/UpdateUsers")" method="post" id="userform">
 
             <input type="text" name="username" value="" /><br />
             @Html.LabelFor(m => m.SelectedClientId)
             @Html.DropDownListFor(m => m.SelectedClientId, Model.ClientDropDownList)<br />
             <input type="submit" name="submit" value="Submit!" />
-            
         </form>
 	</div>
     <div class="caption">
-
+      <br /> <span style="color:grey">@ViewBag.InputMessage</span>
     </div>
 </div>
 

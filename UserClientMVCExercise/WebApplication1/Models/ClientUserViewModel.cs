@@ -15,6 +15,8 @@ namespace WebApplication1.Models
         [Display(Name = "Client Select")]
         public int SelectedClientId { get; set; }
 
+        public string AddEditError { get; set; }
+
         public IEnumerable<SelectListItem> ClientDropDownList { get; set; }
         public IEnumerable<SelectListItem> UserDropDown { get; set; }
 

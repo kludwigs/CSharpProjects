@@ -12,9 +12,13 @@ namespace WebApplication1.Wrappers
         Repositories.UserRepository user_repo = new Repositories.UserRepository();
 
         public User GetUserById(int id)
-		{
-			throw new NotImplementedException();
-		}
+        {
+
+            var userrow = user_repo.GetUserById(id).Tables[0].Rows;
+            string username = userrow[0][1].ToString();
+            int clientid = userrow[0][2].ToInt(-1);
+            return new User { Id = id, Name = username, ClientId = clientid };
+        }
 
 		public List<User> GetUsers()
 		{
@@ -28,7 +32,7 @@ namespace WebApplication1.Wrappers
                 string username = usersrows[i][1].ToString();
                 int clientid = usersrows[i][2].ToInt(-1);
 
-                users.Add(new User { Id = id, Name = username, ParentId = clientid });
+                users.Add(new User { Id = id, Name = username, ClientId = clientid });
 
             }
             return users;

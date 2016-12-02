@@ -14,8 +14,11 @@ namespace WebApplication1.Wrappers
 
 		public Client GetClientById(int id)
 		{
-			throw new NotImplementedException();
-		}
+            var clientrows = client_repo.GetUsers().Tables[0].Rows;
+            string clientname = clientrows[0][1].ToString();
+
+            return (new Client { Id = id, Name = clientname });
+        }
 
 		public List<Client> GetClients()
 		{
