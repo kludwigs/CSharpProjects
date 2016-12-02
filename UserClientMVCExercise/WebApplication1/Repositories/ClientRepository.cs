@@ -36,7 +36,6 @@ namespace WebApplication1.Repositories
 			{
                 //id = ds.Tables[0].Rows[0]["clientId"].ToInt(-1);
                 id = ds.Tables[0].Rows[0][0].ToInt(-1);
-               // var id2 = ds.Tables[0].Rows[0].ItemArray[0].ToInt(-1);
 			}
 
 			return id;
